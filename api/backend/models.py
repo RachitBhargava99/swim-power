@@ -60,13 +60,20 @@ class TowerRecord(db.Model):
         Distance, as given by power tower, used by the swimmer
     timestamp : datetime.datetime
         Timestamp of when the entry was received
+    style : int
+        Style of swimming used
+            0 -> Freestyle
+            1 -> Butterfly
+            2 -> Backstroke
+            3 -> Breaststroke
     """
     id = db.Column(db.Integer, primary_key=True)
     swimmer_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     distance = db.Column(db.Float, nullable=False, default=0.0)
     timestamp = db.Column(db.DateTime, nullable=False, default=datetime.now())
+    style = db.Column(db.Integer, nullable=False, default=0)
 
-    def __init__(self, swimmer_id, distance, timestamp=datetime.now()):
+    def __init__(self, swimmer_id, distance, timestamp=datetime.now(), style=0):
         """
         Parameters
         ----------
@@ -76,7 +83,10 @@ class TowerRecord(db.Model):
             Distance, as given by power tower, used by the swimmer
         timestamp : datetime.datetime
             Timestamp of when the entry was received
+        style : int
+            Style of swimming used
         """
         self.swimmer_id = swimmer_id
         self.distance = distance
         self.timestamp = timestamp
+        self.style = style
